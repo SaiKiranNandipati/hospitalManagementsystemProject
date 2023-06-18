@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Hospital Management System</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Top Bar ======= -->
+  <div id="topbar" class="d-flex align-items-center fixed-top">
+    <div class="container d-flex justify-content-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope"></i> <a href="mailto:contact@example.com">contact@example.com</a>
+        <i class="bi bi-phone"></i> +1 5589 55488 55
+      </div>
+      <div class="d-none d-lg-flex social-links align-items-center">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+
+      <h1 class="logo me-auto"><a href="/">Hospital Management System</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        
+        
+      </nav><!-- .navbar -->
+
+   
+      
+      <a href="/login" class="appointment-btn scrollto">Logout</a>
+
+    </div>
+  </header><!-- End Header -->
+
+ <section style="margin-top:100px;" id="appointment" class="appointment section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Your Profile</h2>
+          <p>You can update your Profile</p>
+        </div>
+        <form th:action=@{/updatePatient} th:object="${patient}" method="post" role="form" class="php-email-form">
+        
+         <input type="hidden" class="form-control" th:field="*{Id}" required/>
+        <input type="hidden" class="form-control" th:field="*{password}" required/>
+          <div class="row">
+            <div class="col-md-4 form-group">
+              <input type="text" name="name" class="form-control" id="username" th:field="*{username}" th:value="${patient.username}" placeholder="Your Username" required>
+              <div class="validate"></div>
+            </div>
+            <div class="col-md-4 form-group mt-3 mt-md-0">
+              <input type="email" class="form-control" name="email" id="email" th:field="*{email}" th:value="${patient.email}" placeholder="Your Email" required>
+              <div class="validate"></div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-4 form-group">
+              <input type="text" name="firstname" class="form-control" id="firstname" th:field="*{firstname}" th:value="${patient.firstname}" placeholder="Your First Name" required>
+              <div class="validate"></div>
+            </div>
+            <div class="col-md-4 form-group mt-3 mt-md-0">
+              <input type="text" class="form-control" name="lastname" th:field="*{lastname}" id="lastname" th:value="${patient.lastname}" placeholder="Your Last Name" required>
+              <div class="validate"></div>
+            </div>
+           <div class="col-md-4 form-group mt-3 mt-md-0">
+              <input type="number" class="form-control" name="mobileNumber" th:field="*{mobileNumber}" th:value="${patient.mobileNumber}" id="mobileNumber" placeholder="Your Mobile Number" required>
+              <div class="validate"></div>
+            </div>
+          </div>
+          
+           <div class="row">
+            <div class="col-md-4 form-group">
+              <input type="number" name="age" class="form-control" id="age" th:field="*{age}" th:value="${patient.age}" placeholder="Your Age" required>
+              <div class="validate"></div>
+            </div>
+            <div class="col-md-4 form-group mt-3 mt-md-0">
+              <select th:field="*{gender}" th:value="${patient.gender}" class="form-control" required>
+			     <option th:value="null">Select Gender</option>
+			    <option th:value="male">Male</option>
+			    <option th:value="female">Female</option>
+			    </select>
+              <div class="validate"></div>
+            </div>
+           <div class="col-md-4 form-group mt-3 mt-md-0">
+              <input type="text" class="form-control" name="bloodGroup" th:field="*{bloodGroup}" th:value="${patient.bloodGroup}" id="bloodGroup" placeholder="Your Blood Group" required>
+              <div class="validate"></div>
+            </div>
+          </div>
+          
+           <div class="form-group mt-3">
+            <textarea class="form-control" name="disease" rows="5" th:field="*{disease}" th:value="${patient.disease}" placeholder="Describe your Disease Here"></textarea>
+            <div class="validate"></div>
+          </div>
+          
+            <div class="row">
+            <div class="col-md-4 form-group">
+              <input type="text" name="doorNo" class="form-control" id="doorNo" th:field="*{doorNo}" th:value="${patient.doorNo}" placeholder="Your Door No" required>
+              <div class="validate"></div>
+            </div>
+            
+             <div class="col-md-4 form-group">
+              <input type="text" name="street" class="form-control" id="street" th:field="*{street}" th:value="${patient.street}" placeholder="Your Street Name" required>
+              <div class="validate"></div>
+            </div>
+            
+             <div class="col-md-4 form-group">
+              <input type="text" name="city" class="form-control" id="city" th:field="*{city}" th:value="${patient.city}" placeholder="Your City Name" required>
+              <div class="validate"></div>
+            </div>
+            
+       
+          </div>
+          
+           <div class="row">
+            <div class="col-md-4 form-group">
+              <input type="number" name="zipCode" class="form-control" id="zipCode" th:field="*{zipCode}" th:value="${patient.zipCode}" placeholder="Your Zip Code" required>
+              <div class="validate"></div>
+            </div>
+            
+             <div class="col-md-4 form-group">
+               <select name="securityQuestion" th:field="*{securityQuestion}" th:value="${patient.securityQuestion}" class="form-control" required>
+			     <option th:value="null">Select your Security Question</option>
+			    <option th:value="birthlocation">Where is your birth location</option>
+			    <option th:value="god">Who is your favorite God</option>
+			    <option th:value="school">What is your first school name</option>
+			    </select>
+            </div>
+            
+             <div class="col-md-4 form-group">
+              <input type="text" name="securityAnswer" class="form-control" id="securityAnswer" th:field="*{securityAnswer}" th:value="${patient.securityAnswer}" placeholder="Your Security Answer" required>
+              <div class="validate"></div>
+            </div>
+            
+       
+          </div>
+          
+         
+
+         
+         <div class="mb-3">
+           
+          </div>
+          <div class="text-center"><button type="submit">Submit</button></div>
+         <a th:href="@{'/deletepatient/' + ${patient.Id}}" class="appointment-btn scrollto">Delete</a>
+        </form>
+
+      </div>
+    </section><!-- End Appointment Section -->
+
+  
+
+ 
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
