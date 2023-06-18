@@ -36,4 +36,21 @@ public class AdminController {
 		return "admin/welcomeadmin";
 	}
 
+	@GetMapping("/adddoctor")
+	public String addDoctor(Model model) {
+
+		Doctor doctor = new Doctor();
+		model.addAttribute("doctor", doctor);
+		return "admin/adddoctor";
+	}
+
+	@PostMapping("/saveDoctor")
+	public String saveDoctor(@ModelAttribute("doctor") Doctor doctor, Model model) {
+		System.out.println("Save Doctor");
+		adminService.saveDoctor(doctor);
+
+		return "redirect:/admin";
+
+	}
+
 }
