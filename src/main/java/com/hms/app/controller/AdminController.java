@@ -70,3 +70,33 @@ public class AdminController {
 
 		return "admin/editdoctor";
 	}
+
+	@GetMapping("/deletedoctor/{id}")
+	public String deleteDoctor(Model model, HttpSession session, @PathVariable(name = "id") Long id) {
+
+		Doctor doctor = adminService.getDoctorById(id);
+
+		adminService.deleteDoctor(doctor);
+
+		model.addAttribute("doctor", doctor);
+
+		return "redirect:/viewdoctor";
+	}
+
+	@PostMapping("/updateDoctor")
+	public String updateDoctor(@ModelAttribute("doctor") Doctor doctor, Model model, HttpSession session) {
+
+		adminService.updateDoctor(doctor);
+
+		return "redirect:/admin";
+	}
+
+	@PostMapping("/searchDoctor")
+	public String searchDoctor(Model model, HttpSession session, @RequestParam("searchKey") String searchKey) {
+
+		List<Doctor> doctors = adminService.searchDoctor(searchKey);
+		model.addAttribute("doctors", doctors);
+		return "admin/viewdoctor";
+	}
+
+}
