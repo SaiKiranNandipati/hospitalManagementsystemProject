@@ -53,4 +53,20 @@ public class AdminController {
 
 	}
 
-}
+	@GetMapping("/viewdoctor")
+	public String viewdoctor(Model model) {
+
+		List<Doctor> doctors = adminService.getAllDoctors();
+		model.addAttribute("doctors", doctors);
+		return "admin/viewdoctor";
+	}
+
+	@GetMapping("/editdoctor/{id}")
+	public String editDoctor(Model model, HttpSession session, @PathVariable(name = "id") Long id) {
+
+		Doctor doctor = adminService.getDoctorById(id);
+
+		model.addAttribute("doctor", doctor);
+
+		return "admin/editdoctor";
+	}
