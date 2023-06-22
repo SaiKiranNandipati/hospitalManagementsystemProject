@@ -35,18 +35,44 @@ public class PatientController {
 	private PatientService patientService;
 
 	@GetMapping("/patient")
-	public String getPatientWelcomePage(Model model, HttpSession session)
-	{
+	public String getPatientWelcomePage(Model model, HttpSession session) {
 		@SuppressWarnings("unchecked")
-        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+		List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
 
-		if(messages == null) {
+		if (messages == null) {
 			model.addAttribute("errormsg", "Session Expired. Please Login Again");
 			return "home/error";
 		}
-        model.addAttribute("sessionMessages", messages);
+		model.addAttribute("sessionMessages", messages);
 		String email = messages.get(0);
-        
-		
+
 		return "patient/welcomepatient";
+	}
+
+	@GetMapping("/patientProfile")
+	public String getPatientProfile(Model model, HttpSession session) {
+		@SuppressWarnings("unchecked")
+		List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+
+		if (messages == null) {
+			model.addAttribute("errormsg", "Session Expired. Please Login Again");
+			return "home/error";
+		}
+		model.addAttribute("sessionMessages", messages);
+		String email = messages.get(0);
+
+		Patient patientt = patientService.getPatientByEmail(email);
+		model.addAttribute("patient", patientt);
+		return "patient/profile";
+	}
+
+	@GetMapping("/makeAppointment")
+	public String makeAppointment(Model model) {
+
+		Appointment appointment = new Appointment();
+		model.addAttribute("appointment", appointment);
+		List<Doctor> doctors = patientService.getAllDoctors();
+		model.addAttribute("doctors", doctors);
+
+		return "patient/makeappointment";
 	}
