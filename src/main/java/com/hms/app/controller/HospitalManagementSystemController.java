@@ -48,7 +48,7 @@ public class HospitalManagementSystemController {
 	}
 
 	@PostMapping("/savePatient")
-	public String savePatient(@ModelAttribute("patient") Patient patient,Model model) {
+	public String savePatient(@ModelAttribute("patient") Patient patient, Model model) {
 		System.out.println("save===patient");
 
 		Patient existingPatient = patientService.findPatient(patient.getEmail());
@@ -66,11 +66,48 @@ public class HospitalManagementSystemController {
 		}
 
 		int output = patientService.savePatient(patient);
-		
+
 		if (output > 0) {
 			return "redirect:/login";
 		} else {
 			model.addAttribute("errormsg", "Account creation failed");
 			return "home/error";
 		}
+	}
+
+	@PostMapping("/authenticatePatient")
+	public String loginUser(@ModelAttribute("patient") Patient patient,RedirectAttributes attributes,HttpServletRequest request,HttpServletResponse response, Model model)
+	{
+		System.out.println("login**************************************** ");
+		String patientModel = patientService.authenticatePatient(patient);
+		
+		System.out.println("output=== "+patientModel);
+		if(patientModel != null)
+		{
+			@SuppressWarnings("unchecked")
+			List<String> messages = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
+			if (messages == null) {
+				messages = new ArrayList<>();
+				request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
+			}
+			
+				messages.add(patient.getEmail());
+				request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
+				
+				if(patientModel.equals("patient")) {
+					
+					return "redirect:/patient";
+				}
+				else if(patientModel.equals("admin"))
+				return "redirect:/admin";
+				else 
+				return "redirect:/doctor";
+			
+			
+		}
+		else {
+			model.addAttribute("errormsg", "Login Failed. Invalid Credentials. Please try again.");
+			return "home/error";
+		}
+		
 	}
