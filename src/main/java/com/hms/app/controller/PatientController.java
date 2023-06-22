@@ -76,3 +76,25 @@ public class PatientController {
 
 		return "patient/makeappointment";
 	}
+
+	@PostMapping("/saveAppointment")
+	public String saveAppointment(@ModelAttribute("appointment") Appointment appointment,Model model,HttpSession session) {
+		System.out.println("Save Appointment");
+		
+		@SuppressWarnings("unchecked")
+        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+
+		if(messages == null) {
+			model.addAttribute("errormsg", "Session Expired. Please Login Again");
+			return "home/error";
+		}
+        model.addAttribute("sessionMessages", messages);
+		String email = messages.get(0);
+		appointment.setPatientEmail(email);
+		appointment.setIsPaid("no");
+		appointment.setIsConfirmed("yes");
+		patientService.saveAppointment(appointment);
+		
+		return "redirect:/makePayment";
+		
+	}
