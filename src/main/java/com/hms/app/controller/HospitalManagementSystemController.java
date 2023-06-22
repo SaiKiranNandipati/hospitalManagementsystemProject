@@ -76,38 +76,56 @@ public class HospitalManagementSystemController {
 	}
 
 	@PostMapping("/authenticatePatient")
-	public String loginUser(@ModelAttribute("patient") Patient patient,RedirectAttributes attributes,HttpServletRequest request,HttpServletResponse response, Model model)
-	{
+	public String loginUser(@ModelAttribute("patient") Patient patient, RedirectAttributes attributes,
+			HttpServletRequest request, HttpServletResponse response, Model model) {
 		System.out.println("login**************************************** ");
 		String patientModel = patientService.authenticatePatient(patient);
-		
-		System.out.println("output=== "+patientModel);
-		if(patientModel != null)
-		{
+
+		System.out.println("output=== " + patientModel);
+		if (patientModel != null) {
 			@SuppressWarnings("unchecked")
 			List<String> messages = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
 			if (messages == null) {
 				messages = new ArrayList<>();
 				request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
 			}
-			
-				messages.add(patient.getEmail());
-				request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
-				
-				if(patientModel.equals("patient")) {
-					
-					return "redirect:/patient";
-				}
-				else if(patientModel.equals("admin"))
+
+			messages.add(patient.getEmail());
+			request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
+
+			if (patientModel.equals("patient")) {
+
+				return "redirect:/patient";
+			} else if (patientModel.equals("admin"))
 				return "redirect:/admin";
-				else 
+			else
 				return "redirect:/doctor";
-			
-			
-		}
-		else {
+
+		} else {
 			model.addAttribute("errormsg", "Login Failed. Invalid Credentials. Please try again.");
 			return "home/error";
 		}
-		
+
 	}
+
+	@PostMapping("/updatePatient")
+	public String updatePatient(@ModelAttribute("patient") Patient patient, Model model) {
+
+		patientService.savePatient(patient);
+
+		// Patient patientt = patientService.getPatientByEmail(patient.getEmail());
+		// model.addAttribute("patient", patientt);
+		return "home/profile";
+	}
+
+	@GetMapping("/deletepatient/{id}")
+	public String deletepatient(Model model, HttpSession session, @PathVariable(name = "id") Long id) {
+
+		Patient patient = patientService.getPatientById(id);
+
+		patientService.deletePatient(patient);
+
+		return "redirect:/";
+	}
+
+}
