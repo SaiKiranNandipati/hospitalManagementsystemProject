@@ -118,8 +118,18 @@ public class PatientController {
 	}
 
 	@GetMapping("/cancelAppointment/{id}")
-	public String cancelAppointment(Model model, HttpSession session, @PathVariable(name="id") Long id) {
+	public String cancelAppointment(Model model, HttpSession session, @PathVariable(name = "id") Long id) {
 
 		patientService.cancelAppointment(id);
 		return "redirect:/patient";
+	}
+
+	@GetMapping("/makePayment")
+	public String makePayment(Model model) {
+
+		Payment payment = new Payment();
+		
+		model.addAttribute("payment", payment);
+
+		return "patient/makepayment";
 	}
