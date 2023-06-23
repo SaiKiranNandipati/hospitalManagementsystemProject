@@ -78,23 +78,48 @@ public class PatientController {
 	}
 
 	@PostMapping("/saveAppointment")
-	public String saveAppointment(@ModelAttribute("appointment") Appointment appointment,Model model,HttpSession session) {
+	public String saveAppointment(@ModelAttribute("appointment") Appointment appointment, Model model,
+			HttpSession session) {
 		System.out.println("Save Appointment");
-		
-		@SuppressWarnings("unchecked")
-        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
 
-		if(messages == null) {
+		@SuppressWarnings("unchecked")
+		List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+
+		if (messages == null) {
 			model.addAttribute("errormsg", "Session Expired. Please Login Again");
 			return "home/error";
 		}
-        model.addAttribute("sessionMessages", messages);
+		model.addAttribute("sessionMessages", messages);
 		String email = messages.get(0);
 		appointment.setPatientEmail(email);
 		appointment.setIsPaid("no");
 		appointment.setIsConfirmed("yes");
 		patientService.saveAppointment(appointment);
-		
+
 		return "redirect:/makePayment";
-		
+
+	}
+
+	@GetMapping("/appointments")
+	public String appointments(Model model, HttpSession session) {
+
+		@SuppressWarnings("unchecked")
+		List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+
+		if (messages == null) {
+			model.addAttribute("errormsg", "Session Expired. Please Login Again");
+			return "home/error";
+		}
+		model.addAttribute("sessionMessages", messages);
+		String email = messages.get(0);
+		List<Appointment> appointments = patientService.getAllAppointments(email);
+		model.addAttribute("appointments", appointments);
+		return "patient/appointments";
+	}
+
+	@GetMapping("/cancelAppointment/{id}")
+	public String cancelAppointment(Model model, HttpSession session, @PathVariable(name="id") Long id) {
+
+		patientService.cancelAppointment(id);
+		return "redirect:/patient";
 	}
