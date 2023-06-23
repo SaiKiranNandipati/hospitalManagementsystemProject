@@ -128,8 +128,33 @@ public class PatientController {
 	public String makePayment(Model model) {
 
 		Payment payment = new Payment();
-		
+
 		model.addAttribute("payment", payment);
 
 		return "patient/makepayment";
+	}
+
+	@PostMapping("/savePayment")
+	public String savePayment(@ModelAttribute("payment") Payment payment,Model model,HttpSession session) {
+		System.out.println("savePayment");
+		
+		@SuppressWarnings("unchecked")
+        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+
+		if(messages == null) {
+			model.addAttribute("errormsg", "Session Expired. Please Login Again");
+			return "home/error";
+		}
+        model.addAttribute("sessionMessages", messages);
+		String email = messages.get(0);
+		payment.setPatientEmail(email);
+		payment.setAmount("500");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+	    Date date = new Date();  
+	    String dat = formatter.format(date);
+		payment.setDate(dat);
+		patientService.savePayment(payment);
+		
+		return "redirect:/patient";
+		
 	}
