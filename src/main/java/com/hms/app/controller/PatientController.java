@@ -135,26 +135,45 @@ public class PatientController {
 	}
 
 	@PostMapping("/savePayment")
-	public String savePayment(@ModelAttribute("payment") Payment payment,Model model,HttpSession session) {
+	public String savePayment(@ModelAttribute("payment") Payment payment, Model model, HttpSession session) {
 		System.out.println("savePayment");
-		
-		@SuppressWarnings("unchecked")
-        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
 
-		if(messages == null) {
+		@SuppressWarnings("unchecked")
+		List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+
+		if (messages == null) {
 			model.addAttribute("errormsg", "Session Expired. Please Login Again");
 			return "home/error";
 		}
-        model.addAttribute("sessionMessages", messages);
+		model.addAttribute("sessionMessages", messages);
 		String email = messages.get(0);
 		payment.setPatientEmail(email);
 		payment.setAmount("500");
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-	    Date date = new Date();  
-	    String dat = formatter.format(date);
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		String dat = formatter.format(date);
 		payment.setDate(dat);
 		patientService.savePayment(payment);
-		
+
 		return "redirect:/patient";
-		
+
 	}
+
+	@GetMapping("/bills")
+	public String bills(Model model, HttpSession session) {
+
+		@SuppressWarnings("unchecked")
+		List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+
+		if (messages == null) {
+			model.addAttribute("errormsg", "Session Expired. Please Login Again");
+			return "home/error";
+		}
+		model.addAttribute("sessionMessages", messages);
+		String email = messages.get(0);
+		List<Payment> bills = patientService.getAllPayments(email);
+		model.addAttribute("bills", bills);
+		return "patient/bills";
+	}
+
+}
