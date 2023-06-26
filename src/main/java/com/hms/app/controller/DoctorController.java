@@ -78,8 +78,10 @@ public class DoctorController {
 	}
 
 	@GetMapping("/confirmAppointment/{id}")
-	public String confirmAppointment(Model model, HttpSession session, @PathVariable(name="id") Long id) {
+	public String confirmAppointment(Model model, HttpSession session, @PathVariable(name = "id") Long id) {
 
 		doctorService.confirmAppointment(id);
 		return "redirect:/doctor";
 	}
+
+}
