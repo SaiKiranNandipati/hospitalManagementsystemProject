@@ -6,16 +6,29 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hms.app.dao.AppointmentRepo;
 import com.hms.app.dao.DoctorRepo;
 import com.hms.app.dao.PatientRepo;
+import com.hms.app.dao.PaymentRepo;
+import com.hms.app.model.Appointment;
 import com.hms.app.model.Doctor;
 import com.hms.app.model.Patient;
+import com.hms.app.model.Payment;
 
 @Service
 public class AdminServiceImpl implements AdminService{
 	
 	@Autowired
 	private DoctorRepo doctorRepo;
+	
+	@Autowired
+	private PaymentRepo billRepo;
+	
+	@Autowired
+	private AppointmentRepo appointmentRepo;
+	
+	@Autowired
+	private PatientRepo patientRepo;
 
 	@Override
 	public void saveDoctor(Doctor doctor) {
@@ -55,6 +68,32 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		doctorRepo.delete(doctor);
 		
+	}
+
+	@Override
+	public List<Payment> getAllBills() {
+		// TODO Auto-generated method stub
+		return billRepo.findAll();
+	}
+
+	@Override
+	public void approveBill(Long id) {
+		Payment bil = billRepo.findAll().stream().filter(bill -> bill.getId().equals(id)).collect(Collectors.toList()).get(0);
+		
+		bil.setIsValid("Approved");
+		billRepo.save(bil);
+	}
+
+	@Override
+	public List<Appointment> getAllAppointments() {
+		// TODO Auto-generated method stub
+		return appointmentRepo.findAll();
+	}
+
+	@Override
+	public List<Patient> getAllPatients() {
+		// TODO Auto-generated method stub
+		return patientRepo.findAll();
 	}
 	
 	
