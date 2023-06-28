@@ -29,56 +29,66 @@ import com.hms.app.service.AdminService;
 import com.hms.app.service.DoctorService;
 import com.hms.app.service.PatientService;
 
+
+
 @Controller
 public class DoctorController {
-
+	
 	@Autowired
 	private PatientService patientService;
-
+	
 	@Autowired
 	private DoctorService doctorService;
+	
+	
+	
 
 	@GetMapping("/doctor")
-	public String getPatientWelcomePage(Model model, HttpSession session) {
+	public String getPatientWelcomePage(Model model, HttpSession session)
+	{
 		@SuppressWarnings("unchecked")
-		List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
 
-		if (messages == null) {
+		if(messages == null) {
 			model.addAttribute("errormsg", "Session Expired. Please Login Again");
 			return "home/error";
 		}
-		model.addAttribute("sessionMessages", messages);
+        model.addAttribute("sessionMessages", messages);
 		String email = messages.get(0);
-
+        
+		
 		return "doctor/welcomedoctor";
 	}
-
+	
+	
+	
+	
 	@GetMapping("/doctorappointments")
 	public String appointments(Model model, HttpSession session) {
 
 		@SuppressWarnings("unchecked")
-		List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
 
-		if (messages == null) {
+		if(messages == null) {
 			model.addAttribute("errormsg", "Session Expired. Please Login Again");
 			return "home/error";
 		}
-		model.addAttribute("sessionMessages", messages);
+        model.addAttribute("sessionMessages", messages);
 		String email = messages.get(0);
 		List<Appointment> appointments = doctorService.getAllDoctorAppointments(email);
 		model.addAttribute("appointments", appointments);
 		return "doctor/appointments";
 	}
-
+	
 	@GetMapping("/cancelAppointments/{id}")
-	public String cancelAppointment(Model model, HttpSession session, @PathVariable(name = "id") Long id) {
+	public String cancelAppointment(Model model, HttpSession session, @PathVariable(name="id") Long id) {
 
 		patientService.cancelAppointment(id);
 		return "redirect:/doctor";
 	}
-
+	
 	@GetMapping("/confirmAppointment/{id}")
-	public String confirmAppointment(Model model, HttpSession session, @PathVariable(name = "id") Long id) {
+	public String confirmAppointment(Model model, HttpSession session, @PathVariable(name="id") Long id) {
 
 		doctorService.confirmAppointment(id);
 		return "redirect:/doctor";
