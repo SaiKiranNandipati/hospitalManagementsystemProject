@@ -85,12 +85,24 @@
             <div class="member d-flex align-items-start">
               
               <div class="member-info">
+              
+              <h4>Payment Id : <th:block th:text="${bill.Id}">
+				     </th:block></h4>
+				     
+				      <h4>Patient Email : <th:block th:text="${bill.patientEmail}">
+				     </th:block></h4>
+				     
+				      <h4>Payment Id : <th:block th:text="${bill.cardNumber}">
+				     </th:block></h4>
                 <h4>Amount : <th:block th:text="${bill.amount}">
 				     </th:block></h4>
 				    
                 <br>
                 
                 <h4>Paid Date  : <th:block th:text="${bill.date}">
+				     </th:block></h4>
+				     
+				     <h4>Payment Verification : <th:block th:text="${bill.isValid}">
 				     </th:block></h4>
                   
                  
