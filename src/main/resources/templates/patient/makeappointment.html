@@ -83,7 +83,7 @@
             <div class="col-md-4 form-group">
               <select class="form-control" th:field="*{doctorEmail}"  id="dropOperator" required>
 			    <option value="null">Select Doctor</option>
-			    <option th:each="doctor : ${doctors}" th:value="${doctor.email}" th:text="${doctor.email}"></option>
+			    <option th:each="doctor : ${doctors}" th:value="${doctor.email}" th:text="${doctor.name}"></option>
 			    </select>
               <div class="validate"></div>
             </div>

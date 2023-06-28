@@ -71,6 +71,45 @@
   </header><!-- End Header -->
 
  
+ <section style="margin-top:100px;" id="doctors" class="doctors">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Appointments</h2>
+        
+        </div>
+
+        <div class="row">
+		<th:block th:each="app : ${appointments}">
+          <div class="col-lg-6">
+            <div class="member d-flex align-items-start">
+              
+              <div class="member-info">
+                <h4>Date: <th:block th:text="${app.date}">
+				     </th:block></h4>
+				    <span>Specialist <th:block th:text="${app.specialist}">
+				     </th:block></span> 
+				 <span>Doctor Email <th:block th:text="${app.doctorEmail}">
+				     </th:block></span>
+                <span>Slot <th:block th:text="${app.slot}">
+				     </th:block></span>
+                <p>Is Confirmed<th:block th:text="${app.isConfirmed}">
+				     </th:block></p>
+                <br>
+                
+                 <a th:href="@{'/cancelAppointment/' + ${app.Id}}" class="appointment-btn scrollto"><i class="ri-edit-fill"></i> Cancel Appointment</a>
+                  
+                 
+              </div>
+            </div>
+          </div>
+          
+</th:block> 
+
+        </div>
+
+      </div>
+    </section><!-- End Doctors Section -->
   <div id="preloader"></div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
