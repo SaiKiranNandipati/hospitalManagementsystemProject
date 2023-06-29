@@ -61,6 +61,7 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
+     
       <a href="/viewdoctor" class="appointment-btn scrollto">View Doctors</a>
       <a href="/manageBills" class="appointment-btn scrollto">Manage Bills</a>
       <a href="/viewRecords" class="appointment-btn scrollto">View Records</a>
@@ -68,50 +69,85 @@
  		<a href="/login" class="appointment-btn scrollto">Logout</a>
     </div>
   </header><!-- End Header -->
-  
-  
-   <section style="margin-top:100px;" id="doctors" class="doctors">
+
+  <section style="margin-top:100px;" id="doctors" class="doctors">
       <div class="container">
 
         <div class="section-title">
-          <h2>Doctors</h2>
-         <form th:action=@{/searchDoctor} method="post" role="form" class="php-email-form">
-          
-              <input style="width:400px;margin-left:450px;" type="text" name="searchKey" class="form-control" id="searchKey" placeholder="Search Doctor" required>
-              <br>
-           
-           <button type="submit" class="appointment-btn scrollto">Search</button>
-            </form>
+          <h2>Records</h2>
+        
         </div>
 
         <div class="row">
-<th:block th:each="doctor : ${doctors}">
+
           <div class="col-lg-6">
             <div class="member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/doctors/doctors-1.jpg" class="img-fluid" alt=""></div>
+             
               <div class="member-info">
-                <h4><th:block th:text="${doctor.firstname}">
-				     </th:block></h4>
-                <span><th:block th:text="${doctor.specialist}">
-				     </th:block></span>
-                <p><th:block th:text="${doctor.experience}">
-				     </th:block> of Experience</p>
+                <h4>Number of Doctors</h4>
+                <h2><th:block th:text="${doctorscount}">
+				     </th:block></h2>
+               
                 <br>
                 
-                 <a th:href="@{'/editdoctor/' + ${doctor.Id}}" class="appointment-btn scrollto"><i class="ri-edit-fill"></i> Edit</a>
-                  <a th:href="@{'/deletedoctor/' + ${doctor.Id}}" class="appointment-btn scrollto"><i class="ri-remove-fill"></i> Delete</a>
-                 
+                
               </div>
             </div>
           </div>
-          
-</th:block> 
+
+
+		<div class="col-lg-6">
+		            <div class="member d-flex align-items-start">
+		             
+		              <div class="member-info">
+		                <h4>Number of Patients</h4>
+		                <h2><th:block th:text="${patientscount}">
+						     </th:block></h2>
+		               
+		                <br>
+		                
+		                
+		              </div>
+		            </div>
+		          </div>
+		          
+		          
+		          <div class="col-lg-6">
+		            <div class="member d-flex align-items-start">
+		             
+		              <div class="member-info">
+		                <h4>Number of Payments</h4>
+		                <h2><th:block th:text="${billscount}">
+						     </th:block></h2>
+		               
+		                <br>
+		                
+		                
+		              </div>
+		            </div>
+		          </div>
+		          
+		          
+		          <div class="col-lg-6">
+		            <div class="member d-flex align-items-start">
+		             
+		              <div class="member-info">
+		                <h4>Number of Appointments</h4>
+		                <h2><th:block th:text="${appscount}">
+						     </th:block></h2>
+		               
+		                <br>
+		                
+		                
+		              </div>
+		            </div>
+		          </div>
+
 
         </div>
 
       </div>
     </section><!-- End Doctors Section -->
-
  
   <div id="preloader"></div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
