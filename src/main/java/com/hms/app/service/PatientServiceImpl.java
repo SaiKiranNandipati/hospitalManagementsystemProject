@@ -16,17 +16,17 @@ import com.hms.app.model.Patient;
 import com.hms.app.model.Payment;
 
 @Service
-public class PatientServiceImpl implements PatientService {
-
+public class PatientServiceImpl implements PatientService{
+	
 	@Autowired
 	private PatientRepo patientRepo;
-
+	
 	@Autowired
 	private AppointmentRepo appointmentRepo;
-
+	
 	@Autowired
 	private DoctorRepo doctorRepo;
-
+	
 	@Autowired
 	private PaymentRepo paymentRepo;
 
@@ -34,15 +34,15 @@ public class PatientServiceImpl implements PatientService {
 	public Patient findPatient(String email) {
 		// TODO Auto-generated method stub
 		List<Patient> patients = patientRepo.findAll();
-		System.out.println("----" + patients.size());
-		if (patients.size() == 0) {
+		System.out.println("----"+patients.size());
+		if(patients.size() == 0) {
 			return null;
 		}
-		List<Patient> veifiedPatient = patients.stream().filter(n -> n.getEmail().equals(email))
-				.collect(Collectors.toList());
-		if (veifiedPatient.size() > 0) {
+		List<Patient> veifiedPatient = patients.stream().filter(n -> n.getEmail().equals(email)).collect(Collectors.toList());
+		if(veifiedPatient.size() > 0) {
 			return veifiedPatient.get(0);
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -50,11 +50,11 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public Patient findPatientByUsername(String username) {
 		List<Patient> patients = patientRepo.findAll();
-		List<Patient> veifiedPatient = patients.stream().filter(n -> n.getUsername().equals(username))
-				.collect(Collectors.toList());
-		if (veifiedPatient.size() > 0) {
+		List<Patient> veifiedPatient = patients.stream().filter(n -> n.getUsername().equals(username)).collect(Collectors.toList());
+		if(veifiedPatient.size() > 0) {
 			return veifiedPatient.get(0);
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -62,41 +62,41 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public int savePatient(Patient patient) {
 		patientRepo.save(patient);
-		if (patientRepo.save(patient) != null) {
+		if(patientRepo.save(patient)!=null) {
 			return 1;
-		} else {
+		}
+		else {
 			return 0;
 		}
 	}
 
 	@Override
 	public String authenticatePatient(Patient patient) {
-
-		if (patient.getEmail().equals("admin@gmail.com") && patient.getPassword().equals("admin")) {
-
+		
+		if(patient.getEmail().equals("admin@gmail.com") && patient.getPassword().equals("admin")) {
+			
+			
 			return "admin";
 		}
-
+		
+		
 		List<Patient> patients = patientRepo.findAll();
-		List<Patient> veifiedPatient = patients.stream()
-				.filter(n -> (n.getEmail().equals(patient.getEmail()) || n.getUsername().equals(patient.getEmail()))
-						&& n.getPassword().equals(patient.getPassword()))
-				.collect(Collectors.toList());
-
+		List<Patient> veifiedPatient = patients.stream().filter(n -> (n.getEmail().equals(patient.getEmail()) || n.getUsername().equals(patient.getEmail())) && n.getPassword().equals(patient.getPassword())).collect(Collectors.toList());
+		
 		List<Doctor> doctors = doctorRepo.findAll();
-		List<Doctor> veifiedDoctor = doctors.stream()
-				.filter(n -> (n.getEmail().equals(patient.getEmail()) || n.getUsername().equals(patient.getEmail()))
-						&& n.getPassword().equals(patient.getPassword()))
-				.collect(Collectors.toList());
-
-		if (veifiedPatient.size() == 1) {
+		List<Patient> veifiedDoctor = patients.stream().filter(n -> (n.getEmail().equals(patient.getEmail()) || n.getUsername().equals(patient.getEmail())) && n.getPassword().equals(patient.getPassword())).collect(Collectors.toList());
+		
+		
+		if(veifiedPatient.size() ==1) {
 			return "patient";
-		} else if (veifiedDoctor.size() == 1) {
+		}
+		else if(veifiedDoctor.size() == 1) {
 			return "doctor";
-		} else {
+		}
+		else {
 			return null;
 		}
-
+			
 	}
 
 	@Override
@@ -115,21 +115,21 @@ public class PatientServiceImpl implements PatientService {
 	public void deletePatient(Patient patient) {
 		// TODO Auto-generated method stub
 		patientRepo.delete(patient);
-
+		
 	}
 
 	@Override
 	public void saveAppointment(Appointment appointment) {
 		// TODO Auto-generated method stub
 		appointmentRepo.save(appointment);
-
+		
+		
 	}
 
 	@Override
 	public List<Appointment> getAllAppointments(String email) {
 		// TODO Auto-generated method stub
-		return appointmentRepo.findAll().stream().filter(app -> app.getPatientEmail().equals(email))
-				.collect(Collectors.toList());
+		return appointmentRepo.findAll().stream().filter(app -> app.getPatientEmail().equals(email)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -141,12 +141,11 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public void cancelAppointment(Long id) {
 		// TODO Auto-generated method stub
-
-		Appointment app = appointmentRepo.findAll().stream().filter(ap -> ap.getId().equals(id))
-				.collect(Collectors.toList()).get(0);
-
+		
+		Appointment app = appointmentRepo.findAll().stream().filter(ap -> ap.getId().equals(id)).collect(Collectors.toList()).get(0);
+		
 		appointmentRepo.delete(app);
-
+		
 	}
 
 	@Override
@@ -158,8 +157,7 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public List<Payment> getAllPayments(String email) {
 		// TODO Auto-generated method stub
-		return paymentRepo.findAll().stream().filter(p -> p.getPatientEmail().equals(email))
-				.collect(Collectors.toList());
+		return paymentRepo.findAll().stream().filter(p -> p.getPatientEmail().equals(email)).collect(Collectors.toList());
 	}
 
 }
