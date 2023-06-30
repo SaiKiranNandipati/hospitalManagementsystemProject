@@ -52,7 +52,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo me-auto"><a href="/">Hospital Management System</a></h1>
+      <h1 class="logo me-auto"><a href="#">Hospital Management System</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -61,12 +61,11 @@
         
       </nav><!-- .navbar -->
 
-   
-      <a href="/appointments" class="appointment-btn scrollto">View Appointments</a>
+ 	<a href="/patient" class="appointment-btn scrollto">Home</a>
       <a href="/makeAppointment" class="appointment-btn scrollto">Make Appointment</a>
        <a href="/bills" class="appointment-btn scrollto">View Bills</a>
        
-       <a href="/patientProfile" class="appointment-btn scrollto">View Profile</a>
+       <a href="/patientProfile" style="color:black" class="appointment-btn scrollto">View Profile</a>
  		<a href="/login" class="appointment-btn scrollto">Logout</a>
 
     </div>
@@ -77,114 +76,49 @@
 
         <div class="section-title">
           <h2>Your Profile</h2>
-          <p>You can update your Profile</p>
+          
         </div>
-        <form th:action=@{/updatePatient} th:object="${patient}" method="post" role="form" class="php-email-form">
+      
+        <div style="margin-left:520px;" class="row">
+          <div class="col-lg-6">
+            <div class="member d-flex align-items-start">
+              
+              <div class="member-info">
+                <p>First Name: <th:block th:text="${patient.firstname}">
+				     </th:block></p>
+                <span>Last Name: <th:block th:text="${patient.lastname}">
+				     </th:block></span>
+                <p>Email: <th:block th:text="${patient.email}">
+				     </th:block></p>
+				 <p>Age: <th:block th:text="${patient.age}">
+				     </th:block></p>
+				     
+				   <p>Mobile Number: <th:block th:text="${patient.mobileNumber}">
+				     </th:block></p>
+				     
+				      <p>Door No: <th:block th:text="${patient.doorNo}">
+				     </th:block></p>
+				     
+				      <p>Street: <th:block th:text="${patient.street}">
+				     </th:block></p>
+				     
+				      <p>Zip Code: <th:block th:text="${patient.zipCode}">
+				     </th:block></p>
+				     
+				      <p>Security Question: <th:block th:text="${patient.securityQuestion}">
+				     </th:block></p>
+                <br>
+                
+                 <a href="/editprofile" class="appointment-btn scrollto"><i class="ri-edit-fill"></i> Edit Profile</a>
+                  
+                 
+              </div>
         
-         <input type="hidden" class="form-control" th:field="*{Id}" required/>
-        <input type="hidden" class="form-control" th:field="*{password}" required/>
-          <div class="row">
-            <div class="col-md-4 form-group">
-              <input type="text" name="name" class="form-control" id="username" th:field="*{username}" th:value="${patient.username}" placeholder="Your Username" required>
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="email" class="form-control" name="email" id="email" th:field="*{email}" th:value="${patient.email}" placeholder="Your Email" required>
-              <div class="validate"></div>
+        
+        </div>
             </div>
           </div>
-          
-          <div class="row">
-            <div class="col-md-4 form-group">
-              <input type="text" name="firstname" class="form-control" id="firstname" th:field="*{firstname}" th:value="${patient.firstname}" placeholder="Your First Name" required>
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="text" class="form-control" name="lastname" th:field="*{lastname}" id="lastname" th:value="${patient.lastname}" placeholder="Your Last Name" required>
-              <div class="validate"></div>
-            </div>
-           <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="number" class="form-control" name="mobileNumber" th:field="*{mobileNumber}" th:value="${patient.mobileNumber}" id="mobileNumber" placeholder="Your Mobile Number" required>
-              <div class="validate"></div>
-            </div>
-          </div>
-          
-           <div class="row">
-            <div class="col-md-4 form-group">
-              <input type="number" name="age" class="form-control" id="age" th:field="*{age}" th:value="${patient.age}" placeholder="Your Age" required>
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3 mt-md-0">
-              <select th:field="*{gender}" th:value="${patient.gender}" class="form-control" required>
-			     <option th:value="null">Select Gender</option>
-			    <option th:value="male">Male</option>
-			    <option th:value="female">Female</option>
-			    </select>
-              <div class="validate"></div>
-            </div>
-           <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="text" class="form-control" name="bloodGroup" th:field="*{bloodGroup}" th:value="${patient.bloodGroup}" id="bloodGroup" placeholder="Your Blood Group" required>
-              <div class="validate"></div>
-            </div>
-          </div>
-          
-           <div class="form-group mt-3">
-            <textarea class="form-control" name="disease" rows="5" th:field="*{disease}" th:value="${patient.disease}" placeholder="Describe your Disease Here"></textarea>
-            <div class="validate"></div>
-          </div>
-          
-            <div class="row">
-            <div class="col-md-4 form-group">
-              <input type="text" name="doorNo" class="form-control" id="doorNo" th:field="*{doorNo}" th:value="${patient.doorNo}" placeholder="Your Door No" required>
-              <div class="validate"></div>
-            </div>
-            
-             <div class="col-md-4 form-group">
-              <input type="text" name="street" class="form-control" id="street" th:field="*{street}" th:value="${patient.street}" placeholder="Your Street Name" required>
-              <div class="validate"></div>
-            </div>
-            
-             <div class="col-md-4 form-group">
-              <input type="text" name="city" class="form-control" id="city" th:field="*{city}" th:value="${patient.city}" placeholder="Your City Name" required>
-              <div class="validate"></div>
-            </div>
-            
-       
-          </div>
-          
-           <div class="row">
-            <div class="col-md-4 form-group">
-              <input type="number" name="zipCode" class="form-control" id="zipCode" th:field="*{zipCode}" th:value="${patient.zipCode}" placeholder="Your Zip Code" required>
-              <div class="validate"></div>
-            </div>
-            
-             <div class="col-md-4 form-group">
-               <select name="securityQuestion" th:field="*{securityQuestion}" th:value="${patient.securityQuestion}" class="form-control" required>
-			     <option th:value="null">Select your Security Question</option>
-			    <option th:value="birthlocation">Where is your birth location</option>
-			    <option th:value="god">Who is your favorite God</option>
-			    <option th:value="school">What is your first school name</option>
-			    </select>
-            </div>
-            
-             <div class="col-md-4 form-group">
-              <input type="text" name="securityAnswer" class="form-control" id="securityAnswer" th:field="*{securityAnswer}" th:value="${patient.securityAnswer}" placeholder="Your Security Answer" required>
-              <div class="validate"></div>
-            </div>
-            
-       
-          </div>
-          
          
-
-         
-         <div class="mb-3">
-           
-          </div>
-          <div class="text-center"><button type="submit">Submit</button></div>
-         <a th:href="@{'/deletepatient/' + ${patient.Id}}" class="appointment-btn scrollto">Delete</a>
-        </form>
-
       </div>
     </section><!-- End Appointment Section -->
 

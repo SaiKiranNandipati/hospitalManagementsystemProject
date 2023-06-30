@@ -84,7 +84,7 @@ public class PatientServiceImpl implements PatientService{
 		List<Patient> veifiedPatient = patients.stream().filter(n -> (n.getEmail().equals(patient.getEmail()) || n.getUsername().equals(patient.getEmail())) && n.getPassword().equals(patient.getPassword())).collect(Collectors.toList());
 		
 		List<Doctor> doctors = doctorRepo.findAll();
-		List<Patient> veifiedDoctor = patients.stream().filter(n -> (n.getEmail().equals(patient.getEmail()) || n.getUsername().equals(patient.getEmail())) && n.getPassword().equals(patient.getPassword())).collect(Collectors.toList());
+		List<Doctor> veifiedDoctor = doctors.stream().filter(n -> (n.getEmail().equals(patient.getEmail()) || n.getUsername().equals(patient.getEmail())) && n.getPassword().equals(patient.getPassword())).collect(Collectors.toList());
 		
 		
 		if(veifiedPatient.size() ==1) {
@@ -119,10 +119,12 @@ public class PatientServiceImpl implements PatientService{
 	}
 
 	@Override
-	public void saveAppointment(Appointment appointment) {
+	public Appointment saveAppointment(Appointment appointment) {
 		// TODO Auto-generated method stub
-		appointmentRepo.save(appointment);
+		Appointment app = appointmentRepo.save(appointment);
 		
+		
+		return app;
 		
 	}
 
@@ -144,8 +146,13 @@ public class PatientServiceImpl implements PatientService{
 		
 		Appointment app = appointmentRepo.findAll().stream().filter(ap -> ap.getId().equals(id)).collect(Collectors.toList()).get(0);
 		
-		appointmentRepo.delete(app);
+		Payment bill = paymentRepo.findAll().stream().filter(bil -> bil.getAppointmentId().equals(String.valueOf(app.getId()))).collect(Collectors.toList()).get(0);
 		
+		app.setIsConfirmed("Cancelled");
+		bill.setIsValid("Money Refunded");
+		
+		appointmentRepo.save(app);
+		paymentRepo.save(bill);
 	}
 
 	@Override
@@ -159,5 +166,59 @@ public class PatientServiceImpl implements PatientService{
 		// TODO Auto-generated method stub
 		return paymentRepo.findAll().stream().filter(p -> p.getPatientEmail().equals(email)).collect(Collectors.toList());
 	}
+
+	@Override
+	public int validatePassword(Patient patient, String securityQuestion, String securityAnswer) {
+		List<Patient> patients = patientRepo.findAll();
+		List<Patient> verifiedPatient = patients.stream().filter(n -> n.getEmail().equals(patient.getEmail())).collect(Collectors.toList());
+		if(verifiedPatient.size() ==1) {
+			List<Patient> userSecurities = patientRepo.findAll();
+			
+			List<Patient> securedUser = userSecurities.stream().filter(security -> security.getSecurityQuestion().equals(securityQuestion) && security.getSecurityAnswer().equals(securityAnswer)
+					
+					).collect(Collectors.toList());
+			if(securedUser.size() == 1) {
+				return 1;
+			}
+			else {
+				return 2;
+			}
+		}
+		else {
+			List<Doctor> doctors = doctorRepo.findAll();
+			List<Doctor> verifiedDoctor = doctors.stream().filter(n -> n.getEmail().equals(patient.getEmail())).collect(Collectors.toList());
+			if(verifiedDoctor.size() ==1) {
+				List<Doctor> doctorSecurities = doctorRepo.findAll();
+				
+				List<Doctor> securedDoctor = doctorSecurities.stream().filter(security -> security.getSecurityQuestion().equals(securityQuestion) && security.getSecurityAnswer().equals(securityAnswer)
+						
+						).collect(Collectors.toList());
+				if(securedDoctor.size() == 1) {
+					return 1;
+				}
+				else {
+					return 2;
+				}
+			}
+			else {
+				return 0;
+			}
+		}
+	}
+
+	@Override
+	public void saveNewPassword(Patient patient) {
+		Patient validPatient = patientRepo.findPatientByEmail(patient.getEmail());
+		if(validPatient == null) {
+			Doctor validDoctor = doctorRepo.findDoctorByEmail(patient.getEmail());
+			validDoctor.setPassword(patient.getPassword());
+			doctorRepo.save(validDoctor);
+		}
+		validPatient.setPassword(patient.getPassword());
+		patientRepo.save(validPatient);
+		
+	}
+	
+	
 
 }

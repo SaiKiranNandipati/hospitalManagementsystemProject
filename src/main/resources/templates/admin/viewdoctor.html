@@ -52,7 +52,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo me-auto"><a href="/">Hospital Management System</a></h1>
+      <h1 class="logo me-auto"><a href="#">Hospital Management System</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -61,7 +61,7 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-      <a href="/viewdoctor" class="appointment-btn scrollto">View Doctors</a>
+<a href="/admin" class="appointment-btn scrollto">Home</a>
       <a href="/manageBills" class="appointment-btn scrollto">Manage Bills</a>
       <a href="/viewRecords" class="appointment-btn scrollto">View Records</a>
       <a href="/adddoctor" class="appointment-btn scrollto">Add Doctors</a>
@@ -83,12 +83,22 @@
            <button type="submit" class="appointment-btn scrollto">Search</button>
             </form>
         </div>
+        
+         <th:block th:if="${size} == 0">
+        <p>No Records Found</p>
+        </th:block>
 
         <div class="row">
 <th:block th:each="doctor : ${doctors}">
           <div class="col-lg-6">
             <div class="member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/doctors/doctors-1.jpg" class="img-fluid" alt=""></div>
+              <th:block th:if="${doctor.gender} == 'male'">
+              <div class="pic"><img src="assets/img/doctors.jpeg" class="img-fluid" alt=""></div>
+              </th:block>
+              
+              <th:block th:if="${doctor.gender} == 'female'">
+              <div class="pic"><img src="assets/img/fdoctors.jpeg" class="img-fluid" alt=""></div>
+              </th:block>
               <div class="member-info">
                 <h4><th:block th:text="${doctor.firstname}">
 				     </th:block></h4>

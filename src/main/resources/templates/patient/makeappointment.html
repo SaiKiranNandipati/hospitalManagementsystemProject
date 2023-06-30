@@ -52,7 +52,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo me-auto"><a href="/">Hospital Management System</a></h1>
+      <h1 class="logo me-auto"><a href="#">Hospital Management System</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -61,8 +61,8 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-     <a href="/appointments" class="appointment-btn scrollto">View Appointments</a>
-      <a href="/makeAppointment" class="appointment-btn scrollto">Make Appointment</a>
+      <a href="/patient" class="appointment-btn scrollto">Home</a>
+      <a href="/makeAppointment" style="color:black" class="appointment-btn scrollto">Make Appointment</a>
        <a href="/bills" class="appointment-btn scrollto">View Bills</a>
        
        <a href="/patientProfile" class="appointment-btn scrollto">View Profile</a>
@@ -81,26 +81,8 @@
         <form th:action=@{/saveAppointment} th:object="${appointment}" method="post" role="form" class="php-email-form">
           <div class="row">
             <div class="col-md-4 form-group">
-              <select class="form-control" th:field="*{doctorEmail}"  id="dropOperator" required>
-			    <option value="null">Select Doctor</option>
-			    <option th:each="doctor : ${doctors}" th:value="${doctor.email}" th:text="${doctor.name}"></option>
-			    </select>
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="date" class="form-control" name="date" id="date" th:field="*{date}" placeholder="Date" required>
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="time" class="form-control" name="slot" id="slot" th:field="*{slot}" placeholder="Slot" required>
-              <div class="validate"></div>
-            </div>
-          </div>
-          
-          
-          
-           <div class="form-group mt-3">
-            <select th:field="*{specialist}" class="form-control" required>
+             <label>Specialist</label>
+             <select th:field="*{specialist}" class="form-control" onChange="changecat(this.value);" required>
 			     <option th:value="null">Select Speciality</option>
 			    <option th:value="Cardiologist">Cardiologist</option>
 			    <option th:value="Gynacologist">Gynacologist</option>
@@ -109,6 +91,30 @@
 			    <option th:value="Dental">Dental</option>
 			    <option th:value="ENT">ENT</option>
 			    </select>
+			    
+              
+              <div class="validate"></div>
+            </div>
+            <div class="col-md-4 form-group mt-3 mt-md-0">
+             <label>Select Date</label>
+              <input type="date" class="form-control" name="date" id="datefield" min="1899-01-01" th:field="*{date}" placeholder="Date" required>
+              <div class="validate"></div>
+            </div>
+            <div class="col-md-4 form-group mt-3 mt-md-0">
+             <label>Choose Slot</label>
+              <input type="time" class="form-control" name="slot" id="slot" th:field="*{slot}" placeholder="Slot" required>
+              <div class="validate"></div>
+            </div>
+          </div>
+          
+          
+          
+           <div class="form-group mt-3">
+           <label>Doctor</label>
+           <select class="form-control" th:field="*{doctorEmail}"  id="doctorEmail" required>
+			    <option value="" disabled selected>Select Doctor</option>
+			    </select>
+           
             <div class="validate"></div>
           </div>
           
@@ -140,7 +146,40 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+<script>
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth() + 1; //January is 0!
+var yyyy = today.getFullYear();
 
+if (dd < 10) {
+   dd = '0' + dd;
+}
+
+if (mm < 10) {
+   mm = '0' + mm;
+} 
+    
+today = yyyy + '-' + mm + '-' + dd;
+document.getElementById("datefield").setAttribute("min", today);
+</script>
+
+<script th:inline="javascript">
+	
+	var cat = /*[[${itemMap}]]*/ 'default';
+	console.log(cat);
+	 function changecat(value) {
+	        if (value.length == 0) document.getElementById("doctorEmail").innerHTML = "<option></option>";
+	        else {
+	            var itemOptions = "";
+	            for (categoryId in cat[value]) {
+	                itemOptions += "<option value="+cat[value][categoryId].split(",")[0]+">" + cat[value][categoryId].split(",")[1] + "</option>";
+	            }
+	            document.getElementById("doctorEmail").innerHTML = itemOptions;
+	        }
+	    }
+	 
+	 </script>
 </body>
 
 </html>

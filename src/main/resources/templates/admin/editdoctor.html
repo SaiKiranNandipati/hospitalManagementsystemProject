@@ -52,7 +52,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo me-auto"><a href="/">Hospital Management System</a></h1>
+      <h1 class="logo me-auto"><a href="#">Hospital Management System</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -61,8 +61,7 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-  
-      <a href="/viewdoctor" class="appointment-btn scrollto">View Doctors</a>
+  <a href="/admin" class="appointment-btn scrollto">Home</a>
       <a href="/manageBills" class="appointment-btn scrollto">Manage Bills</a>
       <a href="/viewRecords" class="appointment-btn scrollto">View Records</a>
       <a href="/adddoctor" class="appointment-btn scrollto">Add Doctors</a>
@@ -77,7 +76,7 @@
           <h2>Update Doctor Details</h2>
           <p>Please fill all details to update Doctor to website</p>
         </div>
-        <form th:action=@{/updateDoctor} th:object="${doctor}" method="post" role="form" class="php-email-form">
+        <form th:action=@{/updateDoctor} th:object="${doctor}" method="post" role="form" onsubmit="alertNow()" class="php-email-form">
         
         <input type="hidden" class="form-control" th:field="*{Id}" required/>
         <input type="hidden" class="form-control" th:field="*{password}" required/>
@@ -108,7 +107,7 @@
             </div>
            <div class="col-md-4 form-group mt-3 mt-md-0">
               <label>Mobile Number</label>
-              <input type="number" class="form-control" name="mobileNumber" th:field="*{mobileNumber}" id="mobileNumber" th:value="${doctor.mobileNumber}" placeholder="Mobile Number" required>
+              <input type="text" class="form-control" name="mobileNumber" th:field="*{mobileNumber}" pattern="[0-9]{10}" id="mobileNumber" th:value="${doctor.mobileNumber}" placeholder="Mobile Number" required>
               <div class="validate"></div>
             </div>
           </div>
@@ -116,7 +115,7 @@
            <div class="row">
             <div class="col-md-4 form-group">
                <label>Age</label>
-              <input type="number" name="age" class="form-control" id="age" th:field="*{age}" th:value="${doctor.age}" placeholder="Age" required>
+              <input type="number" name="age" class="form-control" id="age" th:field="*{age}" min="20" max="99" th:value="${doctor.age}" placeholder="Age" required>
               <div class="validate"></div>
             </div>
             <div class="col-md-4 form-group mt-3 mt-md-0">
@@ -130,7 +129,7 @@
             </div>
            <div class="col-md-4 form-group mt-3 mt-md-0">
               <label>Experience</label>
-              <input type="number" class="form-control" name="experience" th:field="*{experience}" th:value="${doctor.experience}" id="experience" placeholder="Experience" required>
+              <input type="number" class="form-control" name="experience" th:field="*{experience}" min="1" max="99" th:value="${doctor.experience}" id="experience" placeholder="Experience" required>
               <div class="validate"></div>
             </div>
           </div>
@@ -177,7 +176,19 @@
               <input type="number" name="zipCode" class="form-control" id="zipCode" th:field="*{zipCode}" th:value="${doctor.zipCode}" placeholder="Your Zip Code" required>
               <div class="validate"></div>
             </div>
+            <div class="col-md-4 form-group">
+               <select name="securityQuestion" th:field="*{securityQuestion}" class="form-control" required>
+			     <option th:value="null">Select your Security Question</option>
+			    <option th:value="birthlocation">Where is your birth location</option>
+			    <option th:value="god">Who is your favorite God</option>
+			    <option th:value="school">What is your first school name</option>
+			    </select>
+            </div>
             
+             <div class="col-md-4 form-group">
+              <input type="text" name="securityAnswer" class="form-control" id="securityAnswer" th:field="*{securityAnswer}" th:value="${doctor.securityAnswer}" placeholder="Your Security Answer" required>
+              <div class="validate"></div>
+            </div>
             
        
           </div>
@@ -208,7 +219,11 @@
 
   <!-- Template Main JS File -->
   <script src="../assets/js/main.js"></script>
-
+ <script>
+  function alertNow(){
+	  alert("Doctor Edited Successfully");
+  }
+  </script>
 </body>
 
 </html>

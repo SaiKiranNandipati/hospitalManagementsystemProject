@@ -52,7 +52,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo me-auto"><a href="/">Hospital Management System</a></h1>
+      <h1 class="logo me-auto"><a href="#">Hospital Management System</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -61,18 +61,23 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-    
-      <a href="/viewdoctor" class="appointment-btn scrollto">View Doctors</a>
-      <a href="/manageBills" class="appointment-btn scrollto">Manage Bills</a>
+    <a href="/admin" class="appointment-btn scrollto">Home</a>
+      <a href="/manageBills" style="color:black" class="appointment-btn scrollto">Manage Bills</a>
       <a href="/viewRecords" class="appointment-btn scrollto">View Records</a>
       <a href="/adddoctor" class="appointment-btn scrollto">Add Doctors</a>
  		<a href="/login" class="appointment-btn scrollto">Logout</a>
     </div>
   </header><!-- End Header -->
   
-  <div style="margin-top:100px;" class="container">
+  <div style="margin-top:150px;" class="container">
 
-  <center><h2 style="color:blue">Manage Bills</h2></center>
+  <center><h2 style="color:blue">Manage Bills</h2>
+   <th:block th:if="${size} == 0">
+        <p>No Records Found</p>
+        </th:block>
+  
+  </center>
+  
   <br>
   
   <table class="table table-hover">
@@ -99,6 +104,7 @@
                   <td th:text="${bill.isValid}"></td>
                       
       <td><a th:href="@{'/approveBill/' + ${bill.Id}}" class="btn btn-danger">Approve</a></td>
+      <td><a th:href="@{'/rejectBill/' + ${bill.Id}}" class="btn btn-danger">Reject</a></td>
     </tr>
   </th:block>
   </tbody>

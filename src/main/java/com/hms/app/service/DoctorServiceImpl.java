@@ -39,7 +39,7 @@ public class DoctorServiceImpl implements DoctorService{
 		// TODO Auto-generated method stub
 		
 		Appointment appointment = appointmentRepo.findAll().stream().filter(app -> app.getId().equals(id)).collect(Collectors.toList()).get(0);
-		appointment.setIsConfirmed("yes");
+		appointment.setIsConfirmed("Confirmed");
 		appointmentRepo.save(appointment);
 	
 	}

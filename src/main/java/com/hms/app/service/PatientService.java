@@ -23,7 +23,7 @@ public interface PatientService {
 
 	void deletePatient(Patient patient);
 
-	void saveAppointment(Appointment appointment);
+	Appointment saveAppointment(Appointment appointment);
 
 	List<Appointment> getAllAppointments(String email);
 
@@ -34,5 +34,9 @@ public interface PatientService {
 	void savePayment(Payment payment);
 
 	List<Payment> getAllPayments(String email);
+
+	int validatePassword(Patient patient, String securityQuestion, String securityAnswer);
+
+	void saveNewPassword(Patient patient);
 
 }
