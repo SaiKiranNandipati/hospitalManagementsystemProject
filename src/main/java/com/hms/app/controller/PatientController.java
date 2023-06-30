@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,6 +56,7 @@ public class PatientController {
         
 		List<Appointment> appointments = patientService.getAllAppointments(email);
 		model.addAttribute("appointments", appointments);
+		model.addAttribute("size", appointments.size());
 		return "patient/welcomepatient";
 	}
 	
@@ -75,6 +78,24 @@ public class PatientController {
 		return "patient/profile";
 	}
 	
+	@GetMapping("/editprofile")
+	public String editProfile(Model model, HttpSession session)
+	{
+		@SuppressWarnings("unchecked")
+        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+
+		if(messages == null) {
+			model.addAttribute("errormsg", "Session Expired. Please Login Again");
+			return "home/error";
+		}
+        model.addAttribute("sessionMessages", messages);
+		String email = messages.get(0);
+        
+		Patient patientt = patientService.getPatientByEmail(email);
+		model.addAttribute("patient", patientt);
+		return "patient/editprofile";
+	}
+	
 	@GetMapping("/makeAppointment")
 	public String makeAppointment(Model model) {
 
@@ -82,12 +103,47 @@ public class PatientController {
 		model.addAttribute("appointment", appointment);
 		List<Doctor> doctors = patientService.getAllDoctors();
 		model.addAttribute("doctors", doctors);
+		
+		
+		List<String> catList= new ArrayList<String>();
+		catList.add("Cardiologist");
+		catList.add("Gynacologist");
+		catList.add("Neurologist");
+		catList.add("Orthopedic");
+		catList.add("Dental");
+		catList.add("ENT");
+		
+		
+		
+		HashMap<String, List<String>> itemMap = new HashMap<>();
+		
+		
+		for(int i=0;i<catList.size();i++)
+		{
+			
+			String category = catList.get(i);
+			
+			List<String> items = doctors.stream()
+									.filter(it -> it.getSpecialist().equals(category))
+									.map(it-> it.getEmail()+","+it.getUsername())
+									.collect(Collectors.toList());
+			
+			
+			
+			itemMap.put(category, items);
+			
+			
+			
+		}
+		
+		model.addAttribute("categories", catList);
+		model.addAttribute("itemMap", itemMap);
 
 		return "patient/makeappointment";
 	}
 	
 	@PostMapping("/saveAppointment")
-	public String saveAppointment(@ModelAttribute("appointment") Appointment appointment,Model model,HttpSession session) {
+	public String saveAppointment(@ModelAttribute("appointment") Appointment appointment,HttpServletRequest request,Model model,HttpSession session) {
 		System.out.println("Save Appointment");
 		
 		@SuppressWarnings("unchecked")
@@ -101,8 +157,19 @@ public class PatientController {
 		String email = messages.get(0);
 		appointment.setPatientEmail(email);
 		appointment.setIsPaid("no");
-		appointment.setIsConfirmed("yes");
-		patientService.saveAppointment(appointment);
+		appointment.setIsConfirmed("no");
+		Appointment app = patientService.saveAppointment(appointment);
+		
+		@SuppressWarnings("unchecked")
+		List<String> appId = (List<String>) request.getSession().getAttribute("APPOINTMENT_ID");
+		if (appId == null) {
+			appId = new ArrayList<>();
+			request.getSession().setAttribute("APPOINTMENT_ID", appId);
+		}
+		
+		appId.add(String.valueOf(app.getId()));
+			request.getSession().setAttribute("APPOINTMENT_ID", appId);
+		
 		
 		return "redirect:/makePayment";
 		
@@ -138,6 +205,7 @@ public class PatientController {
 		Payment payment = new Payment();
 		
 		model.addAttribute("payment", payment);
+		
 
 		return "patient/makepayment";
 	}
@@ -148,6 +216,10 @@ public class PatientController {
 		
 		@SuppressWarnings("unchecked")
         List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+		
+		@SuppressWarnings("unchecked")
+        List<String> appIds = (List<String>) session.getAttribute("APPOINTMENT_ID");
+
 
 		if(messages == null) {
 			model.addAttribute("errormsg", "Session Expired. Please Login Again");
@@ -162,6 +234,7 @@ public class PatientController {
 	    String dat = formatter.format(date);
 		payment.setDate(dat);
 		payment.setIsValid("Pending");
+		payment.setAppointmentId(appIds.get(0));
 		patientService.savePayment(payment);
 		
 		return "redirect:/patient";
@@ -182,6 +255,7 @@ public class PatientController {
 		String email = messages.get(0);
 		List<Payment> bills = patientService.getAllPayments(email);
 		model.addAttribute("bills", bills);
+		model.addAttribute("size", bills.size());
 		return "patient/bills";
 	}
 	
