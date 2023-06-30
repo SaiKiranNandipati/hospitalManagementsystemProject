@@ -63,7 +63,7 @@
 
   
       <a href="/register" class="appointment-btn scrollto">Sign Up</a>
-      <a href="/login" class="appointment-btn scrollto">Log in</a>
+      <a href="/login" style="color:black" class="appointment-btn scrollto">Log in</a>
 
     </div>
   </header><!-- End Header -->
@@ -72,7 +72,7 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Patient Login Form</h2>
+          <h2>Login Form</h2>
           <p>Please enter credentials to login into website</p>
         </div>
         <form th:action=@{/authenticatePatient} th:object="${patient}" method="post" role="form" class="php-email-form">
@@ -91,9 +91,13 @@
 
          
          <div class="mb-3">
-           
           </div>
-          <div class="text-center"><button type="submit">Login</button></div>
+          <div class="text-center">
+           <a href="/forgotpassword">Forgot Password</a>
+          <br>
+          <br>
+          <button type="submit">Login</button>
+          </div>
         </form>
 
       </div>
