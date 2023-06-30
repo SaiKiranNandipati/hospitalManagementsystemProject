@@ -14,5 +14,8 @@ public interface DoctorRepo extends JpaRepository<Doctor, Long> {
 	
 	@Query( value = "select * from doctors where id = :id", nativeQuery = true)
 	Doctor findDoctorById(@Param("id") Long id);
+	
+	@Query( value = "select * from doctors where email = :email", nativeQuery = true)
+	Doctor findDoctorByEmail(@Param("email") String email);
 
 }
