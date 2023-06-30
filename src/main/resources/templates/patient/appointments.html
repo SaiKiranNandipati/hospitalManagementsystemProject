@@ -52,7 +52,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo me-auto"><a href="/">Hospital Management System</a></h1>
+      <h1 class="logo me-auto"><a href="#">Hospital Management System</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -61,7 +61,7 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-     <a href="/appointments" class="appointment-btn scrollto">View Appointments</a>
+      <a href="/patient" class="appointment-btn scrollto">Home</a>
       <a href="/makeAppointment" class="appointment-btn scrollto">Make Appointment</a>
        <a href="/bills" class="appointment-btn scrollto">View Bills</a>
        
@@ -86,13 +86,13 @@
               <div class="member-info">
                 <h4>Date: <th:block th:text="${app.date}">
 				     </th:block></h4>
-				    <span>Specialist <th:block th:text="${app.specialist}">
+				    <span>Specialist: <th:block th:text="${app.specialist}">
 				     </th:block></span> 
-				 <span>Slot <th:block th:text="${app.doctorEmail}">
+				 <span>Doctor Email: <th:block th:text="${app.doctorEmail}">
 				     </th:block></span>
-                <span>Slot <th:block th:text="${app.slot}">
+                <span>Slot: <th:block th:text="${app.slot}">
 				     </th:block></span>
-                <p>Is Confirmed<th:block th:text="${app.isConfirmed}">
+                <p>Is Confirmed: <th:block th:text="${app.isConfirmed}">
 				     </th:block></p>
                 <br>
                 

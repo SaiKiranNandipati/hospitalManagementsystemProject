@@ -52,7 +52,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo me-auto"><a href="/">Hospital Management System</a></h1>
+      <h1 class="logo me-auto"><a href="#">Hospital Management System</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -61,9 +61,9 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-      <a href="/appointments" class="appointment-btn scrollto">View Appointments</a>
+       <a href="/patient" class="appointment-btn scrollto">Home</a>
       <a href="/makeAppointment" class="appointment-btn scrollto">Make Appointment</a>
-       <a href="/bills" class="appointment-btn scrollto">View Bills</a>
+       <a href="/bills" style="color:black" class="appointment-btn scrollto">View Bills</a>
        
        <a href="/patientProfile" class="appointment-btn scrollto">View Profile</a>
  		<a href="/login" class="appointment-btn scrollto">Logout</a>
@@ -76,7 +76,9 @@
 
         <div class="section-title">
           <h2>Bills</h2>
-        
+        <th:block th:if="${size} == 0">
+        <p>No Records Found</p>
+        </th:block>
         </div>
 
         <div class="row">
@@ -92,7 +94,7 @@
 				      <h4>Patient Email : <th:block th:text="${bill.patientEmail}">
 				     </th:block></h4>
 				     
-				      <h4>Payment Id : <th:block th:text="${bill.cardNumber}">
+				      <h4>Card Number : <th:block th:text="${bill.cardNumber}">
 				     </th:block></h4>
                 <h4>Amount : <th:block th:text="${bill.amount}">
 				     </th:block></h4>
