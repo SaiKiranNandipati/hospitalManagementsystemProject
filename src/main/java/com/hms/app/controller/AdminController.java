@@ -39,7 +39,9 @@ public class AdminController {
 	public String getAdminWelcomePage(Model model, HttpSession session)
 	{
 		
-       
+		List<Doctor> doctors = adminService.getAllDoctors();
+		model.addAttribute("doctors", doctors);
+		model.addAttribute("size", doctors.size());
 		return "admin/welcomeadmin";
 	}
 	
@@ -111,6 +113,7 @@ public class AdminController {
 		
         List<Doctor> doctors = adminService.searchDoctor(searchKey);
         model.addAttribute("doctors", doctors);
+        model.addAttribute("size", doctors.size());
 		return "admin/viewdoctor";
 	}
 	
@@ -119,6 +122,8 @@ public class AdminController {
 
 		List<Payment> bills = adminService.getAllBills();
 		model.addAttribute("bills", bills);
+		
+		model.addAttribute("size", bills.size());
 		return "admin/managebills";
 	}
 	
@@ -128,6 +133,19 @@ public class AdminController {
 		
 	
 	adminService.approveBill(id);
+		
+		
+		
+
+		return "redirect:/manageBills";
+	}
+	
+	@GetMapping("/rejectBill/{id}")
+	public String rejectBill(Model model, HttpSession session, @PathVariable(name="id") Long id) {
+		
+		
+	
+	adminService.rejectBill(id);
 		
 		
 		

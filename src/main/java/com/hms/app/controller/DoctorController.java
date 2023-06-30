@@ -55,7 +55,9 @@ public class DoctorController {
 		}
         model.addAttribute("sessionMessages", messages);
 		String email = messages.get(0);
-        
+		List<Appointment> appointments = doctorService.getAllDoctorAppointments(email);
+		model.addAttribute("appointments", appointments);
+		model.addAttribute("size", appointments.size());
 		
 		return "doctor/welcomedoctor";
 	}
@@ -63,22 +65,7 @@ public class DoctorController {
 	
 	
 	
-	@GetMapping("/doctorappointments")
-	public String appointments(Model model, HttpSession session) {
-
-		@SuppressWarnings("unchecked")
-        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
-
-		if(messages == null) {
-			model.addAttribute("errormsg", "Session Expired. Please Login Again");
-			return "home/error";
-		}
-        model.addAttribute("sessionMessages", messages);
-		String email = messages.get(0);
-		List<Appointment> appointments = doctorService.getAllDoctorAppointments(email);
-		model.addAttribute("appointments", appointments);
-		return "doctor/appointments";
-	}
+	
 	
 	@GetMapping("/cancelAppointments/{id}")
 	public String cancelAppointment(Model model, HttpSession session, @PathVariable(name="id") Long id) {
