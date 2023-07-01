@@ -29,5 +29,7 @@ public interface AdminService {
 
 	List<Patient> getAllPatients();
 
+	void rejectBill(Long id);
+
 
 }

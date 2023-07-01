@@ -60,7 +60,7 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = doctorRepo.findAll();
 		
-		return doctors.stream().filter(d -> d.getFirstname().contains(searchKey) || d.getLastname().contains(searchKey) || d.getUsername().contains(searchKey) || d.getEmail().contains(searchKey)).collect(Collectors.toList());
+		return doctors.stream().filter(d -> d.getFirstname().contains(searchKey) || d.getLastname().contains(searchKey) || d.getUsername().contains(searchKey) || d.getEmail().contains(searchKey) || d.getSpecialist().contains(searchKey) || d.getSpecialist().equalsIgnoreCase(searchKey)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -94,6 +94,20 @@ public class AdminServiceImpl implements AdminService{
 	public List<Patient> getAllPatients() {
 		// TODO Auto-generated method stub
 		return patientRepo.findAll();
+	}
+
+	@Override
+	public void rejectBill(Long id) {
+		// TODO Auto-generated method stub
+		
+		Payment bil = billRepo.findAll().stream().filter(bill -> bill.getId().equals(id)).collect(Collectors.toList()).get(0);
+		Appointment app = appointmentRepo.findAll().stream().filter(ap -> String.valueOf(ap.getId()).equals(bil.getAppointmentId())).collect(Collectors.toList()).get(0);
+		
+		app.setIsConfirmed("Cancelled");
+		bil.setIsValid("Money Refunded");
+		billRepo.save(bil);
+		appointmentRepo.save(app);
+		
 	}
 	
 	

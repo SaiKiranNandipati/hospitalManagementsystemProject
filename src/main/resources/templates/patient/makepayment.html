@@ -52,7 +52,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo me-auto"><a href="/">Hospital Management System</a></h1>
+      <h1 class="logo me-auto"><a href="#">Hospital Management System</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -60,8 +60,8 @@
         
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
-<a href="/appointments" class="appointment-btn scrollto">View Appointments</a>
-      <a href="/makeAppointment" class="appointment-btn scrollto">Make Appointment</a>
+ <a href="/patient" class="appointment-btn scrollto">Home</a>
+      <a href="/makeAppointment" style="color:black" class="appointment-btn scrollto">Make Appointment</a>
        <a href="/bills" class="appointment-btn scrollto">View Bills</a>
        
        <a href="/patientProfile" class="appointment-btn scrollto">View Profile</a>
@@ -77,7 +77,7 @@
           <h2>Appointment</h2>
           <p>Please fill all details to Make Appointment</p>
         </div>
-        <form th:action=@{/savePayment} th:object="${payment}" method="post" role="form" class="php-email-form">
+        <form th:action=@{/savePayment} th:object="${payment}" method="post" onsubmit="alertNow()" role="form" class="php-email-form">
           <div class="row">
            
             <div class="col-md-4 form-group mt-3 mt-md-0">
@@ -85,17 +85,17 @@
               <div class="validate"></div>
             </div>
             <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="number" class="form-control" name="cardNumber" id="cardNumber" th:field="*{cardNumber}" placeholder="Card Number" required>
+              <input type="text" class="form-control" name="cardNumber" id="cardNumber" th:field="*{cardNumber}" pattern="[0-9]{12}" title="Please enter 12 digits" placeholder="Card Number" required>
               <div class="validate"></div>
             </div>
             
             <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="date" class="form-control" name="expiryDate" id="expiryDate" th:field="*{expiryDate}" placeholder="Expiry Date" required>
+              <input type="date" class="form-control" name="expiryDate" id="datefield" min="1899-01-01" th:field="*{expiryDate}" placeholder="Expiry Date" required>
               <div class="validate"></div>
             </div>
             
             <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="number" class="form-control" name="cvv" id="cvv" th:field="*{cvv}" maxlength="3" minlength="3" placeholder="CVV" required>
+              <input type="text" class="form-control" name="cvv" id="cvv" th:field="*{cvv}" pattern="[0-9]{3}" title="Please enter 3 digits" placeholder="CVV" required>
               <div class="validate"></div>
             </div>
             <h2>Consultation Fee: </h2><h3>500 Rs</h3>
@@ -104,7 +104,7 @@
          <div class="mb-3">
            
           </div>
-          <div class="text-center"><button onclick="success();" type="submit">Pay Now</button></div>
+          <div class="text-center"><button type="submit">Pay Now</button></div>
         </form>
 
       </div>
@@ -126,10 +126,28 @@
   <script src="assets/js/main.js"></script>
   
   <script>
-  function success(){
+  function alertNow(){
 	  alert("Paid Successfully");
   }
   </script>
+  
+  <script>
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth() + 1; //January is 0!
+var yyyy = today.getFullYear();
+
+if (dd < 10) {
+   dd = '0' + dd;
+}
+
+if (mm < 10) {
+   mm = '0' + mm;
+} 
+    
+today = yyyy + '-' + mm + '-' + dd;
+document.getElementById("datefield").setAttribute("min", today);
+</script>
 
 </body>
 
