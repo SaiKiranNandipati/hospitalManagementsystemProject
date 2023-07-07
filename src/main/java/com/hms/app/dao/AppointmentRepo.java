@@ -10,7 +10,7 @@ import com.hms.app.model.Appointment;
 @Repository
 public interface AppointmentRepo extends JpaRepository<Appointment, Long> {
 
-	@Query( value = "select * from appointments where id = :id", nativeQuery = true)
+	@Query( value = "select * from appointment where id = :id", nativeQuery = true)
 	Appointment findAppointmentById(@Param("id") Long id);
 
 }

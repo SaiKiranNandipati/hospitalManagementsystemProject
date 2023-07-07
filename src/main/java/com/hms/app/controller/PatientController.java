@@ -158,6 +158,7 @@ public class PatientController {
 		appointment.setPatientEmail(email);
 		appointment.setIsPaid("no");
 		appointment.setIsConfirmed("no");
+		appointment.setPrescription("Not Added Yet");
 		Appointment app = patientService.saveAppointment(appointment);
 		
 		@SuppressWarnings("unchecked")

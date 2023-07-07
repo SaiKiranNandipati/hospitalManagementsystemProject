@@ -29,54 +29,7 @@ public class Appointment {
 	private String specialist;
 	private String isConfirmed;
 	private String isPaid;
-	public Long getId() {
-		return Id;
-	}
-	public void setId(Long id) {
-		Id = id;
-	}
-	public String getPatientEmail() {
-		return patientEmail;
-	}
-	public void setPatientEmail(String patientEmail) {
-		this.patientEmail = patientEmail;
-	}
-	public String getDoctorEmail() {
-		return doctorEmail;
-	}
-	public void setDoctorEmail(String doctorEmail) {
-		this.doctorEmail = doctorEmail;
-	}
-	public String getDate() {
-		return date;
-	}
-	public void setDate(String date) {
-		this.date = date;
-	}
-	public String getSlot() {
-		return slot;
-	}
-	public void setSlot(String slot) {
-		this.slot = slot;
-	}
-	public String getSpecialist() {
-		return specialist;
-	}
-	public void setSpecialist(String specialist) {
-		this.specialist = specialist;
-	}
-	public String getIsConfirmed() {
-		return isConfirmed;
-	}
-	public void setIsConfirmed(String isConfirmed) {
-		this.isConfirmed = isConfirmed;
-	}
-	public String getIsPaid() {
-		return isPaid;
-	}
-	public void setIsPaid(String isPaid) {
-		this.isPaid = isPaid;
-	}
+	private String prescription;
 	
 	
 

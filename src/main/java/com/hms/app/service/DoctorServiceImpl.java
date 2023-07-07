@@ -44,5 +44,11 @@ public class DoctorServiceImpl implements DoctorService{
 	
 	}
 
+	@Override
+	public Appointment getAppointmentById(Long id) {
+		// TODO Auto-generated method stub
+		return appointmentRepo.findAppointmentById(id);
+	}
+
 	
 }

@@ -82,7 +82,7 @@
           <div class="col-lg-6">
             <div class="member d-flex align-items-start">
               
-              <div class="member-info">
+              <div style="height:300px;" class="member-info">
                 <h4>Date: <th:block th:text="${app.date}">
 				     </th:block></h4>
 				    <span>Specialist: <th:block th:text="${app.specialist}">
@@ -94,14 +94,33 @@
                 <p>Is Confirmed: <th:block th:text="${app.isConfirmed}">
 				     </th:block></p>
                 <br>
+                	<th:block th:if="${app.isConfirmed} == 'Confirmed'">
+                	 <th:block th:if="${app.prescription} == 'Not Added Yet'">
+        <a th:href="@{'/addPrescription/' + ${app.Id}}" class="appointment-btn scrollto">Add Prescription</a>
+        </th:block>
+        <a th:href="@{'/viewPatient/' + ${app.patientEmail}}" class="appointment-btn scrollto">View Patient Details</a>
+        </th:block>
+        
+        <th:block th:if="${app.isConfirmed} == 'Confirmed'">
+        <th:block th:if="${app.prescription} != 'Not Added Yet'">
+         <p>Prescription: <th:block th:text="${app.prescription}">
+				     </th:block></p>
+				     
+				     </th:block>
+        </th:block>
+                
+                
+                
                 <th:block th:if="${app.isConfirmed} == 'no'">
    
                  <a th:href="@{'/cancelAppointments/' + ${app.Id}}" class="appointment-btn scrollto"><i class="ri-edit-fill"></i> Cancel Appointment</a>
                   
                  <a th:href="@{'/confirmAppointment/' + ${app.Id}}" class="appointment-btn scrollto"><i class="ri-edit-fill"></i> Confirm Appointment</a>
  			</th:block>
+ 		
                   
               </div>
+              
             </div>
           </div>
           

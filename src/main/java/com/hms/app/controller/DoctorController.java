@@ -67,6 +67,8 @@ public class DoctorController {
 	
 	
 	
+	
+	
 	@GetMapping("/cancelAppointments/{id}")
 	public String cancelAppointment(Model model, HttpSession session, @PathVariable(name="id") Long id) {
 
@@ -81,4 +83,38 @@ public class DoctorController {
 		return "redirect:/doctor";
 	}
 
+	@GetMapping("/addPrescription/{id}")
+	public String editDoctor(Model model, HttpSession session, @PathVariable(name="id") Long id) {
+		
+		
+	
+		Appointment appointment = doctorService.getAppointmentById(id);
+		
+		model.addAttribute("appointment", appointment);
+		
+
+		return "doctor/addprescription";
+	}
+	
+	@PostMapping("/savePrescription")
+	public String saveAppointment(@ModelAttribute("appointment") Appointment appointment,HttpServletRequest request,Model model,HttpSession session) {
+		
+		Appointment app = patientService.saveAppointment(appointment);
+		
+		
+		
+		
+		return "redirect:/doctor";
+		
+	}
+	
+	@GetMapping("/viewPatient/{email}")
+	public String getPatientProfile(Model model, HttpSession session,  @PathVariable(name="email") String email)
+	{
+		
+        
+		Patient patientt = patientService.getPatientByEmail(email);
+		model.addAttribute("patient", patientt);
+		return "doctor/viewpatient";
+	}
 }

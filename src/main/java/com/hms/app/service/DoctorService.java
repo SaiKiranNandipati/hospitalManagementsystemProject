@@ -13,6 +13,8 @@ public interface DoctorService {
 
 	void confirmAppointment(Long id);
 
+	Appointment getAppointmentById(Long id);
+
 	
 
 }

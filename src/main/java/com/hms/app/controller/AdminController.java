@@ -127,6 +127,16 @@ public class AdminController {
 		return "admin/managebills";
 	}
 	
+	@GetMapping("/viewPatients")
+	public String viewPatients(Model model) {
+
+		List<Patient> patients = adminService.getAllPatients();
+		model.addAttribute("patients", patients);
+		
+		model.addAttribute("size", patients.size());
+		return "admin/viewpatients";
+	}
+	
 	@GetMapping("/approveBill/{id}")
 	public String approveBill(Model model, HttpSession session, @PathVariable(name="id") Long id) {
 		

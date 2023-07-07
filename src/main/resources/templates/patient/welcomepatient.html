@@ -98,6 +98,10 @@
                 <p>Is Confirmed: <th:block th:text="${app.isConfirmed}">
 				     </th:block></p>
                 <br>
+                <th:block th:if="${app.isConfirmed} == 'Confirmed'">
+                      <p>Prescription : <th:block th:text="${app.prescription}">
+				     </th:block></p>
+                  </th:block>
                 <th:block th:if="${app.isConfirmed} == 'no'">
                  <a th:href="@{'/cancelAppointment/' + ${app.Id}}" class="appointment-btn scrollto"><i class="ri-edit-fill"></i> Cancel Appointment</a>
                   </th:block>
